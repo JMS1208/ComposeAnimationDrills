@@ -1,4 +1,4 @@
-package com.capstone.dragdrop.ui.screen
+package com.capstone.composeanimationdrills.ui.theme
 
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box

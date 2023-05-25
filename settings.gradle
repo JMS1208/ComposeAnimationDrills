@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ComposeAnimationDrills"
 include ':app'
-include ':dragdrop'
