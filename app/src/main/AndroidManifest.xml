@@ -21,6 +21,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:mimeType="text/x-ssa"/>
+                <data android:mimeType="application/x-subrip"/>
             </intent-filter>
         </activity>
     </application>

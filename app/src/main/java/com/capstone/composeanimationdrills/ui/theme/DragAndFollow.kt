@@ -44,7 +44,7 @@ import kotlin.math.roundToInt
 
 @Preview(showBackground = true)
 @Composable
-private fun Preview() {
+fun DragFollowPreview() {
 
     var position: Offset by remember {
         mutableStateOf(Offset.Zero)

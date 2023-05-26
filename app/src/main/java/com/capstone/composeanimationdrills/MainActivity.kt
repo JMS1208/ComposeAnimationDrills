@@ -1,16 +1,48 @@
 package com.capstone.composeanimationdrills
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.graphics.Paint.Align
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCompositionContext
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
+import com.capstone.composeanimationdrills.utils.FileUtils
+import com.capstone.composeanimationdrills.utils.TextFileDetector
 import com.example.compose.MyCustomTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,8 +53,9 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+                ) {//
+//                    DragFollowPreview()
+                    IntentTestScreen()
                 }
             }
         }
@@ -30,17 +63,49 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+private fun IntentTestScreen() {
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyCustomTheme {
-        Greeting("Android")
+    val context = LocalContext.current
+
+    var textState by remember {
+        mutableStateOf("")
     }
+
+    val coroutine = rememberCoroutineScope()
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri ->
+            uri ?: return@rememberLauncherForActivityResult
+
+            textState = try {
+                FileUtils.readFileFromUri(context, uri)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "파일을 디코딩 할 수 없어요 :("
+            }
+
+        })
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = {
+                launcher.launch(arrayOf("*/*"))
+//                launcher.launch("text/plain")
+            }
+        ) {
+            Text("클릭")
+        }
+
+        Text(
+            text = textState
+        )
+    }
+
 }
