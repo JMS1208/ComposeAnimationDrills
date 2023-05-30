@@ -101,20 +101,6 @@ private fun TitleItem(
     state: LazyListState
 ) {
 
-    val scaleState = remember {
-        Animatable(initialValue = 1f)
-    }
-
-    LaunchedEffect(state.isScrollInProgress) {
-        launch {
-            scaleState.animateTo(
-                targetValue = 1.3f,
-                animationSpec = tween(
-                    durationMillis = 50
-                )
-            )
-        }
-    }
 
     val layoutInfo by remember { derivedStateOf { state.layoutInfo } }
 
@@ -131,7 +117,31 @@ private fun TitleItem(
         fontSize = MaterialTheme.typography.titleLarge.fontSize,
         fontWeight = if (isCenterPosition) FontWeight.Bold else FontWeight.Normal
     )
+    val scaleState = remember {
+        Animatable(initialValue = 1f)
+    }
 
+    LaunchedEffect(isCenterPosition) {
+
+        launch {
+            if (isCenterPosition) {
+                scaleState.animateTo(
+                    targetValue = 1.5f,
+                    animationSpec = tween(
+                        durationMillis = 50
+                    )
+                )
+            } else {
+                scaleState.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(
+                        durationMillis = 50
+                    )
+                )
+            }
+        }
+
+    }
 
     CompositionLocalProvider(
         LocalTextStyle provides textStyle
@@ -140,16 +150,22 @@ private fun TitleItem(
         Column(
             modifier = Modifier
                 .onGloballyPositioned {
-                    it.boundsInParent()
+                    it
+                        .boundsInParent()
                         .let { rect ->
-                            isCenterPosition = rect.contains(layoutInfo.viewportSize.center.toOffset())
-                            alphaState = 1f-abs(rect.center.y-layoutInfo.viewportSize.center.y)/(layoutInfo.viewportSize.height/2)
+                            isCenterPosition =
+                                rect.contains(layoutInfo.viewportSize.center.toOffset())
+                            alphaState = 1f - abs(
+                                rect.center.y - layoutInfo.viewportSize.center.y
+                            ) / (layoutInfo.viewportSize.height / 2)
                         }
                 }
                 .graphicsLayer {
-                    alpha = if(isCenterPosition) 1f else alphaState
-                    scaleX = if (isCenterPosition) 1.5f else 1f
-                    scaleY = if (isCenterPosition) 1.5f else 1f
+                    alpha = if (isCenterPosition) 1f else alphaState
+//                    scaleX = if (isCenterPosition) 1.5f else 1f
+//                    scaleY = if (isCenterPosition) 1.5f else 1f
+                    scaleX = scaleState.value
+                    scaleY = scaleState.value
                 }
                 .fillMaxWidth(0.8f)
                 .padding(16.dp),
