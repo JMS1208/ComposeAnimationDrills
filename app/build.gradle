@@ -63,4 +63,8 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    //인코딩 감지용
+    implementation 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+
 }
