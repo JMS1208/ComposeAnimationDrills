@@ -83,9 +83,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {//
-//                    DragFollowPreview()
-//                    IntentTestScreen()
-                    BalloonScreen()
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text("Hello, World!",
+                            modifier = Modifier
+//                            .offset(100.dp,100.dp)
+                        )
+                        Text("Hello2", modifier = Modifier
+//                            .absoluteOffset(100.dp, 100.dp)
+                        )
+                    }
                 }
             }
         }
