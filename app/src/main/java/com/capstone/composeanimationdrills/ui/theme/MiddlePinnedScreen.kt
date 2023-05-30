@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
@@ -139,7 +140,7 @@ private fun TitleItem(
         Column(
             modifier = Modifier
                 .onGloballyPositioned {
-                    it.boundsInRoot()
+                    it.boundsInParent()
                         .let { rect ->
                             isCenterPosition = rect.contains(layoutInfo.viewportSize.center.toOffset())
                             alphaState = 1f-abs(rect.center.y-layoutInfo.viewportSize.center.y)/(layoutInfo.viewportSize.height/2)
