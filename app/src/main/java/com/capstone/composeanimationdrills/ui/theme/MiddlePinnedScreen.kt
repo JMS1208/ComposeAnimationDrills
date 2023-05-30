@@ -29,11 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -43,14 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toOffset
-import com.capstone.composeanimationdrills.extension.randomText
 import kotlinx.coroutines.launch
 import kotlin.math.abs
-
-data class Person(
-    val name: String,
-    val age: Int
-)
 
 @Preview(showBackground = true)
 @Composable
@@ -58,7 +48,7 @@ private fun Preview() {
     MiddlePinnedScreen()
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiddlePinnedScreen() {
     fun getItems(): List<String> {
@@ -104,7 +94,6 @@ fun MiddlePinnedScreen() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun TitleItem(
     title: String,
